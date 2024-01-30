@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+        <input class="user" type="text" placeholder="nguoi dung">
+        <button>thêm</button>
+        <button>xóa</button>
+    </form>
+    <script>
+    let listUser = JSON.parse(localStorage.getItem("userStorage")) || [];
+    let userName = localStorage.getItem("userName");
+    function addUser() {
+    let nameUser = document.querySelector('.user');
+    if (!nameUser.value) {
+        alert("Chưa nhập thông tin người dùng.");
+    } else {
+        const person = {
+            id: Math.ceil(Math.random() * 1000000),
+            name: nameUser.value,
+        };
+        listUser.push(person);
+        localStorage.setItem("userStorage", JSON.stringify(listUser));
+        localStorage.setItem("userName", nameUser.value);
+        nameUser.value = "";
+        document.querySelector('.userName').innerText = userName;
+        document.querySelector('.addButton').style.display = "none";
+    }
+}
+    function deleteUser() {
+        localStorage.removeItem("userStorage");
+        localStorage.removeItem("userName");
+        document.querySelector('.userName').innerText = "";
+        document.querySelector('.addButton').style.display = "block";
+    }
+    if (userName) {
+        document.querySelector('.userName').innerText = userName;
+        document.querySelector('.addButton').style.display = "none";
+    } else {
+        document.querySelector('.userName').innerText = "";
+        document.querySelector('.addButton').style.display = "block";
+    }
+    </script>
+</body>
+</html>
