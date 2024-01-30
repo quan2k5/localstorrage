@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>thong tin sinh vien</h1>
+    <form id="form">
+      <div>Họ và tên</div>
+      <div>
+        <input type="text" id="name" />
+      </div>
+      <div>Tuổi</div>
+      <div>
+        <input type="number" id="age" />
+      </div>
+      <div>Email</div>
+      <div>
+        <input type="text" id="email" />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      let $ = document.querySelector.bind(document);
+      let $$ = document.querySelectorAll.bind(document);
+      let personList = JSON.parse(localStorage.getItem("person")) || [];
+      function addUser() {
+        let inputName = $("#name").value;
+        let inputAge = $("#age").value;
+        let inputEmail = $("#email").value;
+        if (!inputName||!inputAge||!inputEmail) {
+          alert("thông tin dang con thieu");
+        } else {
+          const person = {
+            name: inputName,
+            age: inputAge,
+            email: inputEmail,
+          };
+          personList.push(person);
+          localStorage.setItem("person", JSON.stringify(personList));
+        }
+      }
+      $("#form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        addUser();
+      });//0966926506
+    </script>
+  </body>
+</html>

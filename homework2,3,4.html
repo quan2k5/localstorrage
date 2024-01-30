@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form class="container"action="">
+        <input type="text"placeholder="Nhập tên cầu thủ">
+        <button type="submit">Thêm</button>
+    </form>
+    <ul class="list"></ul>
+    <script>
+        var footballerList=JSON.parse(localStorage.getItem("footballers")) || [];
+        //lấy dữ liệu từ local storage và nếu ko có khởi tạo mảng rỗng;
+        function addFootballer() {
+            var input=document.querySelector('input').value;
+            if (!input){
+                alert("Chưa nhập thông tin cầu thủ");
+            }else{
+                let footballer={
+                    id:Math.ceil(Math.random() * 100000000),
+                    name:input,
+                }
+                footballerList.push(footballer);
+                localStorage.setItem("footballers", JSON.stringify(footballerList));//luu vao local
+                render();
+            }
+        }
+        document.querySelector('.container').addEventListener("submit",(e)=>{
+            e.preventDefault();
+            addFootballer();
+        });
+        function render(){
+            let ulHtmls =footballerList.map(function (footballer) {
+                return `
+                    <li class="liElement">
+                        <span>ID: ${footballer.id} | Tên: ${footballer.name}</span>
+                        <button id="${footballer.id}">Delete</button>
+                    </li>
+                `;
+            });
+            let ulHtml =ulHtmls.join("----------------------------------------------");
+            document.querySelector('.list').innerHTML=ulHtml;
+        }
+        render();
+        function deleteStudent(id){
+            let newFootballerList=footballerList.filter(function (footballers) {
+                return footballers.id!==id;
+            });
+            footballerList=newFootballerList;
+            localStorage.setItem("footballers",JSON.stringify(footballerList));
+            render();
+        }
+        document.querySelector('.list').addEventListener('click',function(event){
+            if (event.target.nodeName==="BUTTON") {
+                let id=parseInt(event.target.id);
+                deleteStudent(id);
+            }
+        });
+    </script>  
+</body>
+</html>
